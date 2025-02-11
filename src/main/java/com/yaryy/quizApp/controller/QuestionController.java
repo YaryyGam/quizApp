@@ -23,9 +23,16 @@ public class QuestionController {
     public List<Question> getAllQuestions() {
         return questionService.getAllQuestions();
     }
+
     @GetMapping("/category/{topic}")
     public List<Question> getQuestionsByCategory(@PathVariable("topic") String category){
         return questionService.getQuestionsByCategory(category);
+    }
+
+    @PutMapping("/updateQuestion")
+    public ResponseEntity<Question> updateQuestion(@RequestBody Question question){
+        questionService.updateQuestion(question);
+        return ResponseEntity.status(HttpStatus.OK).body(question);
     }
 
     @PostMapping("/addQuestion")
@@ -33,6 +40,7 @@ public class QuestionController {
         questionService.addQuestion(question);
         return ResponseEntity.status(HttpStatus.CREATED).body(question);
     }
+
     @DeleteMapping("/deleteQuestion/{questionId}")
     public String deleteQuestion(@PathVariable("questionId") int Id){
         questionService.deleteQuestion(Id);

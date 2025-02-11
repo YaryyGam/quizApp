@@ -2,7 +2,6 @@ package com.yaryy.quizApp.service;
 
 import com.yaryy.quizApp.DAO.QuestionDAO;
 import com.yaryy.quizApp.model.Question;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +27,9 @@ public class QuestionService {
 
     public List<Question> getQuestionsByCategory(String category) {
         return questionDAO.findByCategory(category);
+    }
+
+    public void updateQuestion(Question question) {
+        questionDAO.save(question);
     }
 }

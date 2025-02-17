@@ -3,8 +3,11 @@ package com.yaryy.quizApp.service;
 import com.yaryy.quizApp.DAO.QuestionDAO;
 import com.yaryy.quizApp.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,20 +16,33 @@ public class QuestionService {
     @Autowired
     QuestionDAO questionDAO;
 
-    public List<Question> getAllQuestions() {
-        return questionDAO.findAll();
+    public ResponseEntity<List<Question>> getAllQuestions() {
+        try {
+            return new ResponseEntity<>(questionDAO.findAll(), HttpStatus.OK);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
-    public void addQuestion(Question question){
-        questionDAO.save(question);
+    public ResponseEntity<Question> addQuestion(Question question){
+            questionDAO.save(question);
+            return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     public void deleteQuestion(int questionId) {
         questionDAO.deleteById(questionId);
     }
 
-    public List<Question> getQuestionsByCategory(String category) {
-        return questionDAO.findByCategory(category);
+    public ResponseEntity<List<Question>> getQuestionsByCategory(String category) {
+        try {
+            new ResponseEntity<>(questionDAO.findByCategory(category), HttpStatus.OK);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
     public void updateQuestion(Question question) {

@@ -27,8 +27,12 @@ public class QuestionService {
     }
 
     public ResponseEntity<Question> addQuestion(Question question){
-            questionDAO.save(question);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(questionDAO.save(question), HttpStatus.CREATED);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public void deleteQuestion(int questionId) {
